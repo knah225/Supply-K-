@@ -1,0 +1,939 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Supply.K — Your Source of Energy</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    /* ─── CHARTE GRAPHIQUE SKEMA ─────────────────────────────────
+       Couleurs extraites des documents officiels SKEMA 2026
+       Primary navy : #040B28  |  Red accent : #C70F2E
+       Red dark      : #9E0B23 |  Gray       : #52575F
+    ────────────────────────────────────────────────────────────── */
+    :root {
+      --navy:      #040B28;   /* Navy profond SKEMA — fond principal      */
+      --navy2:     #0A1535;   /* Navy secondaire — cards sombres           */
+      --navy3:     #0F1D44;   /* Navy tertiaire — hover / profondeur       */
+      --blue:      #C70F2E;   /* Rouge SKEMA — accent principal / CTA      */
+      --blue-dk:   #9E0B23;   /* Rouge foncé — hover états                 */
+      --red:       #C70F2E;   /* Rouge SKEMA                               */
+      --white:     #FFFFFF;
+      --off-white: #F5F7FA;   /* Fond clair neutre                         */
+      --gray:      #8896A8;   /* Texte secondaire                          */
+      --muted:     #52575F;   /* Texte muted — exact SKEMA                 */
+      --border:    #E2E8EF;
+      --text:      #040B28;   /* Corps de texte — navy SKEMA               */
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Inter', 'Segoe UI', Arial, sans-serif;
+      background: var(--off-white);
+      color: var(--text);
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ─── BARRE SKEMA TOP ──────────────────────────────────────── */
+    .skema-bar {
+      background: var(--red);
+      color: white;
+      text-align: center;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      padding: 7px 20px;
+    }
+
+    /* ─── NAVIGATION ───────────────────────────────────────────── */
+    nav {
+      position: sticky; top: 0; left: 0; right: 0; z-index: 100;
+      background: var(--navy);
+      display: flex; align-items: center;
+      justify-content: space-between; padding: 0 48px; height: 62px;
+      border-bottom: 1px solid rgba(199,15,46,0.15);
+      box-shadow: 0 4px 24px rgba(4,11,40,0.5);
+    }
+    .nav-left { display: flex; align-items: center; gap: 40px; }
+    .nav-logo { font-size: 21px; font-weight: 900; color: var(--white); letter-spacing: -0.5px; }
+    .nav-logo span { color: var(--blue); }
+    .nav-links { display: flex; gap: 28px; list-style: none; }
+    .nav-links a {
+      color: rgba(255,255,255,0.6); text-decoration: none;
+      font-size: 13.5px; font-weight: 500; transition: color .2s;
+    }
+    .nav-links a:hover { color: var(--blue); }
+    .nav-cta {
+      background: var(--blue); color: var(--navy); font-weight: 700;
+      padding: 9px 22px; border-radius: 6px; text-decoration: none;
+      font-size: 13.5px; transition: all .2s; letter-spacing: 0.2px;
+    }
+    .nav-cta:hover { background: var(--blue-dk); color: var(--white); }
+
+    /* ─── HERO ─────────────────────────────────────────────────── */
+    .hero {
+      min-height: calc(100vh - 34px);
+      background: var(--navy);
+      display: flex; align-items: center; padding: 80px 48px 72px;
+      position: relative; overflow: hidden;
+    }
+    /* Ligne gauche bleue — signe typique SKEMA */
+    .hero-accent {
+      position: absolute; left: 0; top: 0; bottom: 0;
+      width: 5px; background: var(--blue);
+    }
+    /* Grille de points décoratifs */
+    .hero-dots {
+      position: absolute; right: 0; top: 0; bottom: 0; width: 40%;
+      background-image: radial-gradient(rgba(199,15,46,0.08) 1px, transparent 1px);
+      background-size: 28px 28px;
+      pointer-events: none;
+    }
+    .hero-content { max-width: 620px; z-index: 2; }
+    .hero-tag {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: rgba(199,15,46,0.18); color: #F06070;
+      font-size: 11px; font-weight: 700; letter-spacing: 2px;
+      padding: 5px 14px; border-radius: 4px; margin-bottom: 28px;
+      text-transform: uppercase; border: 1px solid rgba(199,15,46,0.3);
+    }
+    .hero-tag::before {
+      content: ''; width: 6px; height: 6px;
+      background: var(--red); border-radius: 50%;
+      display: inline-block;
+    }
+    .hero h1 {
+      font-size: 66px; font-weight: 900; color: var(--white);
+      line-height: 1.03; margin-bottom: 24px; letter-spacing: -1.5px;
+    }
+    .hero h1 span { color: var(--blue); }
+    .hero p {
+      font-size: 17px; color: rgba(255,255,255,0.6);
+      line-height: 1.75; margin-bottom: 40px; max-width: 500px;
+    }
+    .hero-btns { display: flex; gap: 14px; flex-wrap: wrap; }
+    .btn-primary {
+      background: var(--blue); color: var(--navy); font-weight: 700;
+      padding: 14px 32px; border-radius: 6px; text-decoration: none;
+      font-size: 15px; transition: all .2s; display: inline-block;
+      letter-spacing: 0.2px;
+    }
+    .btn-primary:hover {
+      background: var(--blue-dk); color: var(--white);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(199,15,46,0.35);
+    }
+    .btn-secondary {
+      background: transparent; color: var(--white); font-weight: 600;
+      padding: 14px 32px; border-radius: 6px; text-decoration: none;
+      font-size: 15px; border: 1.5px solid rgba(255,255,255,0.2);
+      transition: all .2s; display: inline-block;
+    }
+    .btn-secondary:hover { border-color: var(--blue); color: var(--blue); }
+
+    .hero-stats { display: flex; gap: 48px; margin-top: 60px; padding-top: 40px; border-top: 1px solid rgba(255,255,255,0.08); }
+    .hero-stat .val { font-size: 30px; font-weight: 900; color: var(--blue); letter-spacing: -0.5px; }
+    .hero-stat .lbl { font-size: 11px; color: rgba(255,255,255,0.45); margin-top: 3px; text-transform: uppercase; letter-spacing: 1.2px; }
+
+    /* ─── SECTIONS GÉNÉRIQUES ───────────────────────────────────── */
+    section { padding: 88px 48px; }
+    .section-label {
+      display: inline-flex; align-items: center; gap: 8px;
+      font-size: 11px; font-weight: 700; letter-spacing: 2px;
+      text-transform: uppercase; color: var(--blue);
+      margin-bottom: 14px;
+    }
+    .section-label::before {
+      content: ''; width: 18px; height: 2px;
+      background: var(--blue); display: inline-block;
+    }
+    h2 {
+      font-size: 36px; font-weight: 800; color: var(--text);
+      margin-bottom: 10px; letter-spacing: -0.5px;
+    }
+    .section-sub {
+      font-size: 15.5px; color: var(--muted);
+      margin-bottom: 52px; max-width: 540px; line-height: 1.65;
+    }
+
+    /* ─── CATALOGUE ─────────────────────────────────────────────── */
+    #catalogue { background: var(--off-white); }
+    .products-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(288px, 1fr)); gap: 24px; }
+    .product-card {
+      background: var(--white); border-radius: 10px; overflow: hidden;
+      border: 1px solid var(--border);
+      box-shadow: 0 2px 12px rgba(4,11,40,0.06);
+      transition: transform .25s, box-shadow .25s, border-color .25s;
+      cursor: pointer;
+    }
+    .product-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 16px 40px rgba(4,11,40,0.12);
+      border-color: var(--blue);
+    }
+    .product-img {
+      height: 180px; background: var(--navy);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 72px; position: relative;
+    }
+    .badge-stock {
+      position: absolute; top: 12px; right: 12px;
+      background: rgba(199,15,46,0.15); color: var(--blue);
+      font-size: 11px; font-weight: 700; padding: 4px 10px; border-radius: 4px;
+    }
+    .badge-stock.low { background: rgba(199,15,46,0.15); color: #E05060; }
+    .product-body { padding: 20px 24px 24px; }
+    .product-name { font-size: 17px; font-weight: 700; color: var(--text); margin-bottom: 4px; }
+    .product-desc { font-size: 13px; color: var(--muted); margin-bottom: 18px; line-height: 1.55; }
+    .product-prices { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 18px; }
+    .price-tag {
+      background: var(--off-white); border: 1px solid var(--border);
+      border-radius: 5px; padding: 6px 12px; text-align: center;
+    }
+    .price-tag .amount { font-size: 15px; font-weight: 800; color: var(--text); display: block; }
+    .price-tag .period { font-size: 10px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.5px; }
+    .btn-reserve {
+      width: 100%; background: var(--navy); color: var(--white); font-weight: 700;
+      padding: 12px; border: none; border-radius: 6px; font-size: 14.5px;
+      cursor: pointer; transition: all .2s; letter-spacing: 0.2px;
+    }
+    .btn-reserve:hover { background: var(--blue); color: var(--navy); }
+
+    /* ─── TARIFS ────────────────────────────────────────────────── */
+    #tarifs { background: var(--navy); }
+    #tarifs h2 { color: var(--white); }
+    #tarifs .section-sub { color: rgba(255,255,255,0.5); }
+    .plans-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 20px; }
+    .plan-card {
+      background: var(--navy2); border-radius: 10px; padding: 28px 24px;
+      border: 1px solid rgba(255,255,255,0.07);
+      transition: border-color .2s, transform .2s;
+      position: relative;
+    }
+    .plan-card:hover { border-color: rgba(199,15,46,0.4); transform: translateY(-4px); }
+    .plan-card.featured {
+      background: var(--blue); border-color: var(--blue);
+    }
+    .plan-card.featured .plan-price,
+    .plan-card.featured .plan-name,
+    .plan-card.featured .plan-period,
+    .plan-card.featured .plan-feature { color: var(--navy) !important; }
+    .popular-badge {
+      position: absolute; top: -13px; left: 50%; transform: translateX(-50%);
+      background: var(--red); color: white; font-size: 11px; font-weight: 700;
+      padding: 4px 16px; border-radius: 4px; white-space: nowrap;
+      letter-spacing: 0.5px;
+    }
+    .plan-name { font-size: 12px; font-weight: 700; color: rgba(255,255,255,0.5); text-transform: uppercase; letter-spacing: 1.5px; margin-bottom: 14px; }
+    .plan-price { font-size: 42px; font-weight: 900; color: var(--white); line-height: 1; letter-spacing: -1px; }
+    .plan-price sup { font-size: 18px; vertical-align: super; margin-right: 1px; letter-spacing: 0; }
+    .plan-period { font-size: 13px; color: rgba(255,255,255,0.45); margin-top: 5px; margin-bottom: 22px; }
+    .plan-features { list-style: none; }
+    .plan-feature { font-size: 13px; color: rgba(255,255,255,0.6); padding: 5px 0; display: flex; align-items: center; gap: 9px; }
+    .plan-feature::before { content: "✓"; color: var(--blue); font-weight: 900; font-size: 13px; }
+    .plan-card.featured .plan-feature::before { color: var(--navy); }
+    .plan-btn {
+      width: 100%; margin-top: 24px; padding: 12px; border-radius: 6px;
+      font-weight: 700; font-size: 14px; cursor: pointer; transition: all .2s;
+      border: none; letter-spacing: 0.3px;
+    }
+    .plan-btn-default { background: rgba(255,255,255,0.08); color: var(--white); }
+    .plan-btn-default:hover { background: var(--blue); color: var(--navy); }
+    .plan-btn-featured { background: var(--navy); color: var(--white); }
+    .plan-btn-featured:hover { background: var(--navy2); }
+
+    /* ─── COMMENT ÇA MARCHE ─────────────────────────────────────── */
+    #fonctionnement { background: var(--white); }
+    .steps { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0; position: relative; }
+    /* Ligne de connexion entre étapes */
+    .steps-connector {
+      display: grid; grid-template-columns: repeat(4, 1fr); margin-bottom: 32px;
+    }
+    .step { padding: 32px 24px; border-top: 3px solid var(--border); transition: border-color .2s; }
+    .step:hover { border-top-color: var(--blue); }
+    .step-num {
+      width: 44px; height: 44px; background: var(--navy);
+      border-radius: 6px; display: flex; align-items: center; justify-content: center;
+      font-size: 18px; font-weight: 900; color: var(--blue);
+      margin-bottom: 16px;
+    }
+    .step h3 { font-size: 15px; font-weight: 700; color: var(--text); margin-bottom: 8px; }
+    .step p { font-size: 13px; color: var(--muted); line-height: 1.65; }
+
+    /* ─── AVIS ──────────────────────────────────────────────────── */
+    #avis { background: var(--off-white); }
+    .reviews-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 20px; }
+    .review-card {
+      background: var(--white); border-radius: 10px; padding: 26px;
+      border: 1px solid var(--border);
+      box-shadow: 0 2px 10px rgba(4,11,40,0.05);
+    }
+    .stars { color: #F59E0B; font-size: 15px; margin-bottom: 14px; letter-spacing: 2px; }
+    .review-text { font-size: 14px; color: var(--text); line-height: 1.65; margin-bottom: 18px; font-style: italic; }
+    .review-author { font-size: 12px; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: 0.5px; }
+    .review-author span { color: var(--blue); font-weight: 500; margin-left: 4px; }
+
+    /* ─── CTA SECTION ───────────────────────────────────────────── */
+    .cta-section { background: var(--navy); text-align: center; padding: 88px 48px; position: relative; overflow: hidden; }
+    .cta-section::before {
+      content: '';
+      position: absolute; inset: 0;
+      background: linear-gradient(135deg, rgba(199,15,46,0.06) 0%, transparent 60%);
+      pointer-events: none;
+    }
+    .cta-section h2 { color: var(--white); font-size: 38px; margin-bottom: 16px; letter-spacing: -0.5px; }
+    .cta-section p { color: rgba(255,255,255,0.55); font-size: 16.5px; margin-bottom: 40px; }
+    .cta-section .btn-primary { font-size: 16px; padding: 16px 44px; }
+
+    /* ─── FOOTER ────────────────────────────────────────────────── */
+    footer {
+      background: #020818; padding: 40px 48px;
+      display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 24px;
+      border-top: 1px solid rgba(199,15,46,0.1);
+    }
+    .footer-left {}
+    .footer-logo { font-size: 19px; font-weight: 900; color: var(--white); }
+    .footer-logo span { color: var(--blue); }
+    .footer-tagline { font-size: 12px; color: rgba(255,255,255,0.35); margin-top: 4px; }
+    .footer-links { display: flex; gap: 24px; }
+    .footer-links a { color: rgba(255,255,255,0.4); text-decoration: none; font-size: 13px; transition: color .2s; }
+    .footer-links a:hover { color: var(--blue); }
+    .footer-skema {
+      display: flex; align-items: center; gap: 10px;
+      font-size: 11px; color: rgba(255,255,255,0.25); letter-spacing: 0.5px;
+    }
+    .footer-skema-badge {
+      background: var(--red); color: white; font-size: 10px;
+      font-weight: 800; letter-spacing: 1px; padding: 3px 8px; border-radius: 3px;
+      text-transform: uppercase;
+    }
+
+    /* ─── MODAL ─────────────────────────────────────────────────── */
+    .modal-overlay {
+      display: none; position: fixed; inset: 0;
+      background: rgba(4,11,40,0.85); z-index: 200;
+      align-items: center; justify-content: center; padding: 20px;
+      backdrop-filter: blur(4px);
+    }
+    .modal-overlay.open { display: flex; }
+    .modal {
+      background: var(--white); border-radius: 12px; max-width: 700px; width: 100%;
+      overflow: hidden; box-shadow: 0 40px 80px rgba(4,11,40,0.6);
+    }
+    .modal-header {
+      background: var(--navy); padding: 20px 24px;
+      display: flex; justify-content: space-between; align-items: center;
+      border-bottom: 2px solid var(--blue);
+    }
+    .modal-header h3 { color: var(--white); font-size: 17px; font-weight: 700; }
+    .modal-close { color: rgba(255,255,255,0.5); font-size: 22px; cursor: pointer; background: none; border: none; transition: color .2s; }
+    .modal-close:hover { color: var(--white); }
+    .modal-body { display: grid; grid-template-columns: 1fr 1fr; gap: 0; }
+    .modal-img {
+      background: var(--navy2); display: flex; align-items: center;
+      justify-content: center; font-size: 100px; min-height: 250px;
+    }
+    .modal-info { padding: 28px 24px; }
+    .modal-info h4 { font-size: 21px; font-weight: 800; color: var(--text); margin-bottom: 6px; }
+    .modal-info .availability { color: var(--blue); font-size: 13px; font-weight: 600; margin-bottom: 20px; }
+    .modal-prices { display: flex; flex-direction: column; gap: 8px; margin-bottom: 20px; }
+    .modal-price-row {
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 8px 12px; background: var(--off-white);
+      border-radius: 5px; border: 1px solid var(--border);
+    }
+    .modal-price-row .label { font-size: 13px; color: var(--muted); }
+    .modal-price-row .price { font-size: 15px; font-weight: 800; color: var(--text); }
+    .modal-price-row.highlight { background: rgba(199,15,46,0.08); border-color: rgba(199,15,46,0.25); }
+    .modal-price-row.highlight .price { color: var(--blue-dk); }
+    .modal-btn {
+      width: 100%; background: var(--blue); color: var(--navy);
+      font-weight: 700; padding: 14px; border: none; border-radius: 6px;
+      font-size: 15px; cursor: pointer; transition: all .2s;
+    }
+    .modal-btn:hover { background: var(--blue-dk); color: var(--white); }
+    .modal-note { font-size: 11px; color: var(--muted); text-align: center; margin-top: 8px; }
+
+    /* ─── RESPONSIVE ────────────────────────────────────────────── */
+    @media (max-width: 900px) {
+      nav { padding: 0 24px; }
+      section { padding: 68px 24px; }
+      .hero { padding: 80px 24px 60px; }
+      .cta-section { padding: 68px 24px; }
+      footer { padding: 32px 24px; }
+    }
+    @media (max-width: 768px) {
+      .hero h1 { font-size: 42px; letter-spacing: -1px; }
+      .hero-dots { display: none; }
+      .hero-stats { gap: 28px; flex-wrap: wrap; }
+      .nav-links { display: none; }
+      h2 { font-size: 28px; }
+      .modal-body { grid-template-columns: 1fr; }
+      footer { flex-direction: column; gap: 20px; text-align: center; }
+      .footer-links { flex-wrap: wrap; justify-content: center; }
+    }
+
+    /* ─── SCROLL ANIMATIONS ───────────────────────────────── */
+    .reveal {
+      opacity: 0;
+      transform: translateY(22px);
+      transition: opacity .5s ease-out, transform .5s ease-out;
+    }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+    .reveal-d1 { transition-delay: .08s; }
+    .reveal-d2 { transition-delay: .18s; }
+    .reveal-d3 { transition-delay: .28s; }
+    .reveal-d4 { transition-delay: .38s; }
+
+    /* ─── NAV SCROLL STATE ────────────────────────────────── */
+    nav { transition: height .25s ease, background .25s ease, backdrop-filter .25s ease; }
+    nav.scrolled {
+      height: 54px;
+      background: rgba(4,11,40,0.88);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+    }
+
+    /* ─── HAMBURGER ───────────────────────────────────────── */
+    .hamburger {
+      display: none;
+      flex-direction: column;
+      gap: 5px;
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 6px;
+    }
+    .hamburger span {
+      display: block; width: 22px; height: 2px;
+      background: white; border-radius: 2px;
+      transition: all .25s ease;
+    }
+    .hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+    .hamburger.open span:nth-child(2) { opacity: 0; transform: scaleX(0); }
+    .hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+    .mobile-menu {
+      display: none;
+      position: absolute; top: 100%; left: 0; right: 0;
+      background: var(--navy);
+      border-top: 1px solid rgba(199,15,46,0.2);
+      padding: 8px 24px 16px;
+      flex-direction: column;
+      box-shadow: 0 12px 32px rgba(4,11,40,0.5);
+    }
+    .mobile-menu.open { display: flex; }
+    .mobile-menu a {
+      color: rgba(255,255,255,0.7); text-decoration: none;
+      font-size: 14px; font-weight: 500; padding: 12px 0;
+      border-bottom: 1px solid rgba(255,255,255,0.07);
+      transition: color .2s;
+    }
+    .mobile-menu a:last-child { border-bottom: none; }
+    .mobile-menu a:hover { color: var(--blue); }
+    @media (max-width: 768px) { .hamburger { display: flex; } }
+
+    /* ─── FLOATING CTA ────────────────────────────────────── */
+    .fab {
+      position: fixed; bottom: 28px; right: 28px; z-index: 90;
+      background: var(--blue); color: var(--navy);
+      font-weight: 700; font-size: 14px;
+      padding: 13px 24px; border-radius: 50px; border: none;
+      cursor: pointer; text-decoration: none; display: flex;
+      align-items: center; gap: 8px;
+      box-shadow: 0 8px 28px rgba(199,15,46,0.45);
+      opacity: 0; transform: translateY(14px);
+      pointer-events: none;
+      transition: opacity .3s ease, transform .3s ease, background .2s, box-shadow .2s;
+    }
+    .fab.visible { opacity: 1; transform: translateY(0); pointer-events: auto; }
+    .fab:hover { background: var(--blue-dk); color: white; transform: translateY(-3px); box-shadow: 0 14px 36px rgba(199,15,46,0.55); }
+    @media (max-width: 768px) { .fab { padding: 11px 18px; font-size: 13px; bottom: 20px; right: 16px; } }
+
+    /* ─── STEPS CONNECTOR LINE ────────────────────────────── */
+    .steps { position: relative; }
+    .steps::before {
+      content: '';
+      position: absolute; top: 0; left: 10%; right: 10%; height: 3px;
+      background: linear-gradient(90deg, var(--blue) 0%, rgba(199,15,46,0.1) 100%);
+      border-radius: 3px;
+    }
+    .step-num { transition: background .2s, color .2s, transform .2s; }
+    .step:hover .step-num { background: var(--blue); color: var(--navy); transform: scale(1.1); }
+
+    /* ─── POPULAR BADGE PULSE ─────────────────────────────── */
+    @keyframes badgePulse {
+      0%,100% { box-shadow: 0 0 0 0 rgba(199,15,46,.6); }
+      50%      { box-shadow: 0 0 0 7px rgba(199,15,46,0); }
+    }
+    .popular-badge { animation: badgePulse 2.2s ease-in-out infinite; }
+
+    /* ─── HERO DOTS SLOW DRIFT ────────────────────────────── */
+    @keyframes dotsDrift {
+      from { background-position: 0 0; }
+      to   { background-position: 56px 56px; }
+    }
+    .hero-dots { animation: dotsDrift 18s linear infinite; }
+
+    /* ─── HERO FADE-IN STAGGER ────────────────────────────── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(18px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    .hero-tag  { animation: fadeUp .55s ease-out both; animation-delay: .1s; }
+    .hero h1   { animation: fadeUp .55s ease-out both; animation-delay: .25s; }
+    .hero > .hero-content > p { animation: fadeUp .55s ease-out both; animation-delay: .4s; }
+    .hero-btns { animation: fadeUp .55s ease-out both; animation-delay: .55s; }
+    .hero-stats{ animation: fadeUp .55s ease-out both; animation-delay: .7s; }
+
+    /* ─── BUTTON MICRO-INTERACTIONS ──────────────────────── */
+    .btn-primary:hover  { transform: translateY(-2px); }
+    .btn-primary:active, .btn-reserve:active, .modal-btn:active, .plan-btn:active {
+      transform: scale(0.97) !important;
+    }
+
+    /* ─── FOCUS VISIBLE ───────────────────────────────────── */
+    :focus-visible {
+      outline: 2px solid var(--blue);
+      outline-offset: 3px;
+      border-radius: 4px;
+    }
+    :focus:not(:focus-visible) { outline: none; }
+
+    /* ─── REDUCED MOTION ──────────────────────────────────── */
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: .01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: .01ms !important;
+      }
+      .reveal { opacity: 1; transform: none; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- BARRE SKEMA -->
+<div class="skema-bar">SKEMA Business School — Campus Paris</div>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-left">
+    <div class="nav-logo">Supply<span>.K</span></div>
+    <ul class="nav-links">
+      <li><a href="#catalogue">Catalogue</a></li>
+      <li><a href="#tarifs">Tarifs</a></li>
+      <li><a href="#fonctionnement">Comment ça marche</a></li>
+      <li><a href="#avis">Avis</a></li>
+    </ul>
+  </div>
+  <div style="display:flex;align-items:center;gap:14px;">
+    <a href="#catalogue" class="nav-cta">Réserver maintenant</a>
+    <button class="hamburger" id="hamburger" aria-label="Ouvrir le menu" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+  <div id="mobile-menu" class="mobile-menu" role="navigation" aria-label="Menu mobile">
+    <a href="#catalogue">Catalogue</a>
+    <a href="#tarifs">Tarifs</a>
+    <a href="#fonctionnement">Comment ça marche</a>
+    <a href="#avis">Avis</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero" id="accueil">
+  <div class="hero-accent"></div>
+  <div class="hero-dots"></div>
+  <div class="hero-content">
+    <div class="hero-tag">Disponible sur le campus SKEMA</div>
+    <h1>Rechargez.<br><span>Restez concentré.</span></h1>
+    <p>Plus jamais de batterie vide en cours. Supply.K propose la location de batteries externes pour ordinateurs — réservable en ligne en 2 minutes, 24h/24.</p>
+    <div class="hero-btns">
+      <a href="#catalogue" class="btn-primary">Réserver une batterie</a>
+      <a href="#tarifs" class="btn-secondary">Voir les tarifs</a>
+    </div>
+    <div class="hero-stats">
+      <div class="hero-stat">
+        <div class="val">1 €</div>
+        <div class="lbl">à partir de / heure</div>
+      </div>
+      <div class="hero-stat">
+        <div class="val">24/7</div>
+        <div class="lbl">Réservation en ligne</div>
+      </div>
+      <div class="hero-stat">
+        <div class="val">20 000</div>
+        <div class="lbl">mAh — Compatible PC</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CATALOGUE -->
+<section id="catalogue">
+  <div class="section-label">Catalogue</div>
+  <h2>Nos produits</h2>
+  <p class="section-sub">Batteries haute capacité compatibles PC, Mac et tablettes. Câbles inclus sur demande.</p>
+  <div class="products-grid">
+
+    <div class="product-card reveal reveal-d1" onclick="openModal('anker')">
+      <div class="product-img" role="img" aria-label="Batterie Anker 737">
+        <svg width="72" height="72" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M13 2L4.5 13.5H11L10 22L19.5 10.5H13L13 2Z" fill="#C70F2E" stroke="#C70F2E" stroke-width="1" stroke-linejoin="round"/></svg>
+        <span class="badge-stock">18 dispo</span>
+      </div>
+      <div class="product-body">
+        <div class="product-name">Anker 737 — 20 000 mAh</div>
+        <div class="product-desc">Haute capacité · Compatible PC, Mac, iPad · Charge rapide 65W · Deux ports USB-C</div>
+        <div class="product-prices">
+          <div class="price-tag"><span class="amount">1 €</span><span class="period">/ heure</span></div>
+          <div class="price-tag"><span class="amount">4 €</span><span class="period">/ jour</span></div>
+          <div class="price-tag"><span class="amount">15 €</span><span class="period">/ mois</span></div>
+        </div>
+        <button class="btn-reserve" onclick="openModal('anker'); event.stopPropagation()">Réserver</button>
+      </div>
+    </div>
+
+    <div class="product-card reveal reveal-d2" onclick="openModal('baseus')">
+      <div class="product-img" role="img" aria-label="Batterie Baseus 10K">
+        <svg width="68" height="68" viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="2" y="7" width="18" height="11" rx="2" stroke="#C70F2E" stroke-width="1.8"/><path d="M20 10.5h2v4h-2" stroke="#C70F2E" stroke-width="1.8" stroke-linecap="round"/><rect x="4.5" y="9.5" width="4" height="6" rx="1" fill="#C70F2E"/><rect x="10" y="9.5" width="4" height="6" rx="1" fill="rgba(199,15,46,0.35)"/></svg>
+        <span class="badge-stock">10 dispo</span>
+      </div>
+      <div class="product-body">
+        <div class="product-name">Baseus 10K — 10 000 mAh</div>
+        <div class="product-desc">Format compact · Idéal smartphone & tablette · USB-C + USB-A · Léger (220g)</div>
+        <div class="product-prices">
+          <div class="price-tag"><span class="amount">1 €</span><span class="period">/ heure</span></div>
+          <div class="price-tag"><span class="amount">3 €</span><span class="period">/ jour</span></div>
+          <div class="price-tag"><span class="amount">12 €</span><span class="period">/ mois</span></div>
+        </div>
+        <button class="btn-reserve" onclick="openModal('baseus'); event.stopPropagation()">Réserver</button>
+      </div>
+    </div>
+
+    <div class="product-card reveal reveal-d3" onclick="openModal('cable')">
+      <div class="product-img" role="img" aria-label="Câbles USB-C et Lightning">
+        <svg width="68" height="68" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 2v5M9 4h6" stroke="#C70F2E" stroke-width="1.8" stroke-linecap="round"/><path d="M12 7c0 0-5 2-5 7s5 8 5 8 5-3 5-8-5-7-5-7z" stroke="#C70F2E" stroke-width="1.8" stroke-linejoin="round"/><path d="M10 12h4M12 10v4" stroke="#C70F2E" stroke-width="1.5" stroke-linecap="round"/></svg>
+        <span class="badge-stock low">5 restants</span>
+      </div>
+      <div class="product-body">
+        <div class="product-name">Câbles — USB-C / Lightning</div>
+        <div class="product-desc">Vente définitive · USB-C, Lightning, MagSafe · Compatibilité universelle · Tressé nylon</div>
+        <div class="product-prices">
+          <div class="price-tag"><span class="amount">9 €</span><span class="period">USB-C</span></div>
+          <div class="price-tag"><span class="amount">11 €</span><span class="period">Lightning</span></div>
+          <div class="price-tag"><span class="amount">12 €</span><span class="period">MagSafe</span></div>
+        </div>
+        <button class="btn-reserve" onclick="openModal('cable'); event.stopPropagation()">Acheter</button>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- TARIFS -->
+<section id="tarifs">
+  <div class="section-label" style="color:rgba(199,15,46,0.9);">Tarifs</div>
+  <h2>Choisissez votre formule</h2>
+  <p class="section-sub">Tarifs validés par sondage étudiant. Sans engagement, résiliable à tout moment.</p>
+  <div class="plans-grid">
+
+    <div class="plan-card reveal reveal-d1">
+      <div class="plan-name">À l'heure</div>
+      <div class="plan-price"><sup>€</sup>1<span style="font-size:19px;color:rgba(255,255,255,0.3)">/h</span></div>
+      <div class="plan-period">Idéal pour une urgence</div>
+      <ul class="plan-features">
+        <li class="plan-feature">Accès immédiat sans inscription</li>
+        <li class="plan-feature">Paiement CB / Apple / Google Pay</li>
+        <li class="plan-feature">Retour libre sur campus</li>
+      </ul>
+      <button class="plan-btn plan-btn-default" onclick="openModal('anker')">Réserver</button>
+    </div>
+
+    <div class="plan-card reveal reveal-d2">
+      <div class="plan-name">À la journée</div>
+      <div class="plan-price"><sup>€</sup>4<span style="font-size:19px;color:rgba(255,255,255,0.3)">/jour</span></div>
+      <div class="plan-period">Parfait pour une longue journée</div>
+      <ul class="plan-features">
+        <li class="plan-feature">Journée complète sur campus</li>
+        <li class="plan-feature">Caution digitale 20 € (remboursée)</li>
+        <li class="plan-feature">Prise en charge dès 8h</li>
+      </ul>
+      <button class="plan-btn plan-btn-default" onclick="openModal('anker')">Réserver</button>
+    </div>
+
+    <div class="plan-card featured reveal reveal-d3">
+      <div class="popular-badge">Le + populaire</div>
+      <div class="plan-name">Abonnement mensuel</div>
+      <div class="plan-price" style="color:var(--navy)"><sup style="color:var(--navy)">€</sup>15<span style="font-size:19px;color:rgba(4,11,40,0.45)">/mois</span></div>
+      <div class="plan-period">Accès illimité tout le mois</div>
+      <ul class="plan-features">
+        <li class="plan-feature">Réservations illimitées</li>
+        <li class="plan-feature">5ème location offerte</li>
+        <li class="plan-feature">Priorité sur les stocks</li>
+        <li class="plan-feature">Résiliation libre</li>
+      </ul>
+      <button class="plan-btn plan-btn-featured" onclick="openModal('anker')">S'abonner</button>
+    </div>
+
+    <div class="plan-card reveal reveal-d4">
+      <div class="plan-name">Starter Pack annuel</div>
+      <div class="plan-price"><sup>€</sup>59<span style="font-size:19px;color:rgba(255,255,255,0.3)">/an</span></div>
+      <div class="plan-period">Toute l'année scolaire</div>
+      <ul class="plan-features">
+        <li class="plan-feature">Accès illimité 12 mois</li>
+        <li class="plan-feature">1 câble de charge offert</li>
+        <li class="plan-feature">T-shirt SKEMA offert</li>
+        <li class="plan-feature">Gourde SKEMA offerte</li>
+        <li class="plan-feature">Casquette SKEMA offerte</li>
+      </ul>
+      <button class="plan-btn plan-btn-default" onclick="openModal('anker')">Commander</button>
+    </div>
+
+  </div>
+</section>
+
+<!-- COMMENT CA MARCHE -->
+<section id="fonctionnement">
+  <div class="section-label">Comment ça marche</div>
+  <h2>3 étapes, 2 minutes</h2>
+  <p class="section-sub">Réservez depuis votre téléphone ou ordinateur. Pas de déplacement, pas d'attente.</p>
+  <div class="steps">
+    <div class="step">
+      <div class="step-num">01</div>
+      <h3>Choisissez votre batterie</h3>
+      <p>Sélectionnez le modèle et la durée de location. Stock disponible en temps réel.</p>
+    </div>
+    <div class="step">
+      <div class="step-num">02</div>
+      <h3>Payez en 1 clic</h3>
+      <p>CB, Apple Pay ou Google Pay. Caution digitale prélevée et remboursée au retour.</p>
+    </div>
+    <div class="step">
+      <div class="step-num">03</div>
+      <h3>Récupérez sur campus</h3>
+      <p>Un QR code vous est envoyé par email. Scannez-le au point de retrait sur campus.</p>
+    </div>
+    <div class="step">
+      <div class="step-num">04</div>
+      <h3>Retournez simplement</h3>
+      <p>Déposez la batterie au point de retrait. La caution est remboursée sous 24h.</p>
+    </div>
+  </div>
+</section>
+
+<!-- AVIS -->
+<section id="avis">
+  <div class="section-label">Avis étudiants</div>
+  <h2>Ce qu'ils en pensent</h2>
+  <p class="section-sub">Des étudiants SKEMA qui ont testé Supply.K.</p>
+  <div class="reviews-grid">
+    <div class="review-card reveal reveal-d1">
+      <div class="stars">★★★★★</div>
+      <div class="review-text">"J'avais ma soutenance à 14h et mon Mac affichait 8 %. En 2 minutes j'avais une batterie. Service impeccable."</div>
+      <div class="review-author">Lucas M.<span>· Bachelor 2</span></div>
+    </div>
+    <div class="review-card reveal reveal-d2">
+      <div class="stars">★★★★★</div>
+      <div class="review-text">"Pour nos sessions de travail en groupe, on loue 3 batteries à la fois. L'abonnement mensuel est vraiment rentable."</div>
+      <div class="review-author">Sofia & l'équipe<span>· Master 1</span></div>
+    </div>
+    <div class="review-card reveal reveal-d3">
+      <div class="stars">★★★★☆</div>
+      <div class="review-text">"Je venais pour une conférence, pas de prise disponible. QR code scanné, batterie récupérée en 3 min. Très pratique."</div>
+      <div class="review-author">Marc D.<span>· Intervenant</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<div class="cta-section">
+  <h2>Prêt à ne plus jamais tomber en panne ?</h2>
+  <p>Rejoignez les étudiants SKEMA qui font confiance à Supply.K.</p>
+  <a href="#catalogue" class="btn-primary">Réserver ma batterie maintenant</a>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-left">
+    <div class="footer-logo">Supply<span>.K</span></div>
+    <div class="footer-tagline">Your Source of Energy — supply-k.fr</div>
+  </div>
+  <div class="footer-links">
+    <a href="#catalogue">Catalogue</a>
+    <a href="#tarifs">Tarifs</a>
+    <a href="#fonctionnement">FAQ</a>
+    <a href="mailto:supplyk@skema.edu">Contact</a>
+  </div>
+  <div class="footer-skema">
+    <span class="footer-skema-badge">SKEMA</span>
+    Projet E-Business Model · 2025/2026
+  </div>
+</footer>
+
+<!-- FLOATING CTA -->
+<a href="#catalogue" class="fab" id="fab" aria-label="Réserver une batterie">
+  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M13 2L4.5 13.5H11L10 22L19.5 10.5H13L13 2Z" fill="currentColor"/></svg>
+  Réserver
+</a>
+
+<!-- MODAL PRODUIT -->
+<div class="modal-overlay" id="modal" onclick="closeModal(event)">
+  <div class="modal">
+    <div class="modal-header">
+      <h3 id="modal-title">Réserver</h3>
+      <button class="modal-close" onclick="closeModalDirect()">&#10005;</button>
+    </div>
+    <div class="modal-body">
+      <div class="modal-img" id="modal-img">⚡</div>
+      <div class="modal-info">
+        <h4 id="modal-name">Anker 737</h4>
+        <div class="availability" id="modal-avail">✓ 18 unités disponibles</div>
+        <div class="modal-prices" id="modal-prices"></div>
+        <button class="modal-btn" onclick="confirmReservation()">Confirmer la réservation</button>
+        <div class="modal-note">Paiement sécurisé · Remboursement caution sous 24h</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+/* ── PRODUCT DATA ──────────────────────────────────────────── */
+const BOLT_SVG = `<svg width="80" height="80" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M13 2L4.5 13.5H11L10 22L19.5 10.5H13L13 2Z" fill="#C70F2E" stroke="#C70F2E" stroke-width="1" stroke-linejoin="round"/></svg>`;
+const BAT_SVG  = `<svg width="76" height="76" viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="2" y="7" width="18" height="11" rx="2" stroke="#C70F2E" stroke-width="1.8"/><path d="M20 10.5h2v4h-2" stroke="#C70F2E" stroke-width="1.8" stroke-linecap="round"/><rect x="4.5" y="9.5" width="4" height="6" rx="1" fill="#C70F2E"/><rect x="10" y="9.5" width="4" height="6" rx="1" fill="rgba(199,15,46,0.35)"/></svg>`;
+const CABLE_SVG= `<svg width="76" height="76" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 2v5M9 4h6" stroke="#C70F2E" stroke-width="1.8" stroke-linecap="round"/><path d="M12 7c0 0-5 2-5 7s5 8 5 8 5-3 5-8-5-7-5-7z" stroke="#C70F2E" stroke-width="1.8" stroke-linejoin="round"/><path d="M10 12h4M12 10v4" stroke="#C70F2E" stroke-width="1.5" stroke-linecap="round"/></svg>`;
+
+const products = {
+  anker: {
+    title: "Réserver — Anker 737",
+    name: "Anker 737 — 20 000 mAh",
+    img: BOLT_SVG,
+    avail: "✓ 18 unités disponibles",
+    prices: [
+      { label: "À l'heure",         price: "1,00 €",  highlight: false },
+      { label: "À la journée",       price: "4,00 €",  highlight: false },
+      { label: "Abonnement mensuel", price: "15,00 €", highlight: true  },
+      { label: "Starter Pack annuel",price: "59,00 €", highlight: false },
+    ]
+  },
+  baseus: {
+    title: "Réserver — Baseus 10K",
+    name: "Baseus 10K — 10 000 mAh",
+    img: BAT_SVG,
+    avail: "✓ 10 unités disponibles",
+    prices: [
+      { label: "À l'heure",         price: "1,00 €",  highlight: false },
+      { label: "À la journée",       price: "3,00 €",  highlight: false },
+      { label: "Abonnement mensuel", price: "12,00 €", highlight: true  },
+    ]
+  },
+  cable: {
+    title: "Acheter un câble",
+    name: "Câbles USB-C / Lightning / MagSafe",
+    img: CABLE_SVG,
+    avail: "⚠ Seulement 5 restants",
+    prices: [
+      { label: "USB-C (tressé nylon)",      price: "9,00 €",  highlight: false },
+      { label: "Lightning (tressé nylon)",   price: "11,00 €", highlight: false },
+      { label: "MagSafe",                    price: "12,00 €", highlight: true  },
+    ]
+  }
+};
+
+/* ── MODAL ─────────────────────────────────────────────────── */
+function openModal(id) {
+  const p = products[id];
+  document.getElementById('modal-title').textContent = p.title;
+  document.getElementById('modal-name').textContent  = p.name;
+  document.getElementById('modal-img').innerHTML     = p.img;
+  document.getElementById('modal-avail').textContent = p.avail;
+  document.getElementById('modal-prices').innerHTML  = p.prices.map(pr =>
+    `<div class="modal-price-row${pr.highlight ? ' highlight' : ''}">
+      <span class="label">${pr.label}</span>
+      <span class="price">${pr.price}</span>
+    </div>`
+  ).join('');
+  const modal = document.getElementById('modal');
+  modal.classList.add('open');
+  modal.setAttribute('aria-hidden', 'false');
+  document.body.style.overflow = 'hidden';
+}
+function closeModal(e) {
+  if (e.target === document.getElementById('modal')) closeModalDirect();
+}
+function closeModalDirect() {
+  const modal = document.getElementById('modal');
+  modal.classList.remove('open');
+  modal.setAttribute('aria-hidden', 'true');
+  document.body.style.overflow = '';
+}
+function confirmReservation() {
+  closeModalDirect();
+  alert('Réservation confirmée ! Un email de confirmation vous sera envoyé avec votre QR code.\n\nMerci de votre confiance — Supply.K');
+}
+// Close modal on Escape
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') closeModalDirect();
+});
+
+/* ── SMOOTH SCROLL ─────────────────────────────────────────── */
+document.querySelectorAll('a[href^="#"]').forEach(a => {
+  a.addEventListener('click', e => {
+    e.preventDefault();
+    const target = document.querySelector(a.getAttribute('href'));
+    if (target) target.scrollIntoView({ behavior: 'smooth' });
+    // close mobile menu on link click
+    hamburger.classList.remove('open');
+    mobileMenu.classList.remove('open');
+    hamburger.setAttribute('aria-expanded', 'false');
+  });
+});
+
+/* ── NAV SCROLL EFFECT ─────────────────────────────────────── */
+const nav = document.querySelector('nav:first-of-type');
+window.addEventListener('scroll', () => {
+  nav.classList.toggle('scrolled', window.scrollY > 40);
+}, { passive: true });
+
+/* ── HAMBURGER ─────────────────────────────────────────────── */
+const hamburger  = document.getElementById('hamburger');
+const mobileMenu = document.getElementById('mobile-menu');
+hamburger.addEventListener('click', () => {
+  const open = hamburger.classList.toggle('open');
+  mobileMenu.classList.toggle('open', open);
+  hamburger.setAttribute('aria-expanded', String(open));
+});
+
+/* ── FLOATING CTA ──────────────────────────────────────────── */
+const fab = document.getElementById('fab');
+window.addEventListener('scroll', () => {
+  fab.classList.toggle('visible', window.scrollY > 400);
+}, { passive: true });
+
+/* ── INTERSECTION OBSERVER — REVEAL ───────────────────────── */
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('visible');
+      observer.unobserve(entry.target);
+    }
+  });
+}, { threshold: 0, rootMargin: '0px 0px -40px 0px' });
+
+document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+// Fallback : révéler immédiatement les éléments déjà dans le viewport
+requestAnimationFrame(() => {
+  document.querySelectorAll('.reveal:not(.visible)').forEach(el => {
+    const r = el.getBoundingClientRect();
+    if (r.top < window.innerHeight && r.bottom > 0) {
+      el.classList.add('visible');
+    }
+  });
+});
+</script>
+</body>
+</html>
